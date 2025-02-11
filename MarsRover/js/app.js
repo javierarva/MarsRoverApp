@@ -2,7 +2,6 @@ let rover = new MarsRover();
 let obstacles = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Página cargada correctamente");
     document.getElementById("executeButton").addEventListener("click", runRover);
     document.getElementById("resetButton").addEventListener("click", resetRover);
     document.getElementById("generateObstacles").addEventListener("click", generateObstacles);
@@ -12,42 +11,46 @@ document.addEventListener("DOMContentLoaded", () => {
 function runRover() {
     const commandsInput = document.getElementById('commands').value;
     const commands = commandsInput.toUpperCase();
-    
+
+    let messageElement = document.getElementById('message');
+    messageElement.innerHTML = "";
+
     for (let command of commands) {
         let nextX = rover.x;
         let nextY = rover.y;
-        
-        if (command === 'M') {
+
+        if (command === 'F') {
             switch (rover.direction) {
                 case 'N': nextY += 1; break;
                 case 'S': nextY -= 1; break;
                 case 'E': nextX += 1; break;
                 case 'W': nextX -= 1; break;
             }
-            
+
             if (obstacles.some(obs => obs.x === nextX && obs.y === nextY)) {
-                console.log("Obstáculo encontrado en", nextX, nextY, "- Deteniendo recorrido");
+                messageElement.innerHTML = "Se aborta la secuencia: hay un obstáculo en el recorrido";
+
                 break;
             }
         }
         rover.execute(command);
     }
-    
-    document.getElementById('position').textContent = `${rover.x}:${rover.y}:${rover.direction}`;
+
+    document.getElementById('position').innerHTML = `${rover.x}:${rover.y}:${rover.direction}`;
     createGrid();
 }
 
 function resetRover() {
     rover = new MarsRover();
     obstacles = [];
-    document.getElementById('position').textContent = `${rover.x}:${rover.y}:${rover.direction}`;
+    document.getElementById('position').innerHTML = `${rover.x}:${rover.y}:${rover.direction}`;
     createGrid();
 }
 
 function generateObstacles() {
     const numObstacles = parseInt(document.getElementById("obstacles").value);
     obstacles = [];
-    
+
     while (obstacles.length < numObstacles) {
         let x = Math.floor(Math.random() * 10);
         let y = Math.floor(Math.random() * 10);
@@ -57,8 +60,12 @@ function generateObstacles() {
         }
     }
 
-    console.log("Obstáculos generados:", obstacles);
     createGrid();
+}
+
+function getDirectionSymbol(direction) {
+    const symbols = { 'N': '▲', 'E': '▶', 'S': '▼', 'W': '◀' };
+    return symbols[direction] || '?';
 }
 
 function createGrid() {
@@ -71,18 +78,12 @@ function createGrid() {
 
             if (x === rover.x && y === rover.y) {
                 cell.classList.add("rover");
-                cell.textContent = getDirectionSymbol(rover.direction);
+                cell.innerHTML = `${getDirectionSymbol(rover.direction)}`;
             } else if (obstacles.some(obs => obs.x === x && obs.y === y)) {
                 cell.classList.add("obstacle");
-                //cell.textContent = "";
             }
 
             grid.appendChild(cell);
         }
     }
-}
-
-function getDirectionSymbol(direction) {
-    const symbols = { 'N': '▲', 'E': '▶', 'S': '▼', 'W': '◀' };
-    return symbols[direction] || '?';
 }

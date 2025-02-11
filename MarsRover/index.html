@@ -9,16 +9,33 @@
 </head>
 
 <body>
-    <h1>Mars Rover</h1>
-    <input type="text" id="commands" placeholder="Introduce comandos (L, R, M)">
-    <button id="executeButton">Ejecutar</button>
-    <button id="resetButton">Reiniciar</button>
-    <br><br>
-    <label for="obstacles">Número de obstáculos:</label>
-    <input type="number" id="obstacles" min="0" max="100" value="5">
-    <button id="generateObstacles">Generar Obstáculos</button>
-    <p>Posición actual: <span id="position">0:0:N</span></p>
-    <div id="grid"></div>
+    <div class="container">
+        <h1>Mars Rover</h1>
+
+        <div class="controls">
+            <input type="text" id="commands" placeholder="Introduce comandos (F, L, R)">
+            <button id="executeButton">Ejecutar</button>
+            <button id="resetButton">Reiniciar</button>
+        </div>
+
+        <div class="obstacle-controls">
+            <label for="obstacles">Número de obstáculos:</label>
+            <input type="number" id="obstacles" min="0" max="100" value="5">
+            <button id="generateObstacles">Generar Obstáculos</button>
+        </div>
+
+        <div class="info">
+            <p><strong>Posición actual:</strong> <span id="position">0:0:N</span></p>
+        </div>
+
+        <div class="message-container">
+            <p id="message" class="error-message"></p>
+        </div>
+
+        <div class="grid-container">
+            <div id="grid"></div>
+        </div>
+    </div>
 
     <script src="js/Rover.js"></script>
     <script src="js/Obstacle.js"></script>

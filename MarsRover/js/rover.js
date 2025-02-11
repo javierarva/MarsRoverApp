@@ -12,6 +12,7 @@ class MarsRover {
             if (command === 'F') this.move();
             else if (command === 'L' || command === 'R') this.turn(command);
         }
+
         return `${this.x}:${this.y}:${this.direction}`;
     }
 
