@@ -49,7 +49,13 @@ function resetRover() {
 
 function generateObstacles() {
     const numObstacles = parseInt(document.getElementById("obstacles").value);
+    const maxObstacles = 99;
     obstacles = [];
+
+    if (numObstacles > maxObstacles) {
+        document.getElementById("message").innerHTML = `No puedes generar más de ${maxObstacles} obstáculos.`;
+        return;
+    }
 
     while (obstacles.length < numObstacles) {
         let x = Math.floor(Math.random() * 10);
